@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+  </head>
+  <body>
+
+      <%- include('menu.html') %>
+
+      <p></p>
+      <h2>&nbsp;&nbsp;&nbsp;&nbsp;sticker</h2>
+      <table class="table table-hover table-striped text-center container mt-4"
+      style="border: 1px solid;">
+        <thead>
+          <tr>
+            <th scope="col">제목</th>
+            <th scope="col">내용</th>
+            <th scope="col">날짜</th>
+            <th scope="col">삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+        <!-- 서버에서 데이터를 {data : result}로 전달했고
+          가져온 데이터를 변수로 출력하기 위해서 <%= data %>로 써준다.
+          -->
+          <% for(let i = 0; i<data.length; i++){ %>
+            <tr>
+              <td><a href="/content/<%= data[i]._id %>"><%= data[i].title %></td></a>
+              <td><%= data[i].content %></td>
+              <td><%= data[i].date %></td>
+              <td><button class = 'delete btn btn-outline-danger' data-id="<%= data[i]._id %>">삭제</button></td>
+            </tr>
+            
+          <% } %>
+        </tbody>
+      </table>
+
+      <div class="container my-3">
+        <button style="float:right" class="btn btn-secondary enter">글쓰기</button>
+      </div>
+
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+      <script>
+        $('.delete').click(function(e){
+          let sid = e.target.dataset.id;
+          let item = $(this); // this => button을 가리킴
+
+          $.ajax({
+          //type : 요청방식, get, post, put, delete
+          type : 'post',
+          //url : 요청경로, /delete
+          url : '/delete',
+          //data : 서버로 보낼 데이터, { _id : 100}
+          data : {_id : sid}
+        }).done(function(result){
+          //응답에 성공시
+          // location.reload(); //location.href = "이동할 주소", location.replace("이동할 주소")
+          // location.replace("");
+          console.log('success');
+          item.parent('td').parent('tr').remove();
+           // 자동으로 새로고침해줘서 즉각적으로 반영되게 끔
+        }).fail(function(xhr, textStatus, errorThrown){
+        //응답에 실패시
+          console.log('게시물 삭제 실패');
+          console.log(xhr, textStatus, errorThrown);
+        })
+      })
+      $('.enter').click(function(e){
+        location.href="\enter";
+      })
+
+      $('.sbtn').click(function(){
+          let inputValue = $('.sword').val();
+          location.href = '\\search?value=' + inputValue;
+        })
+      </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>

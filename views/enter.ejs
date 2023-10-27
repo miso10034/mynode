@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <%- include('menu.html') %>
+    <div class="container mt-4">  <!--저장버튼 눌렀을 때 /save 라우터에서 요청을 처리하는 부분은 action에 써주기-->
+        <form method="POST" action="/save"><!-- 데이터를 서버로 보내는 것 => POST-->
+            <div class="form-group">
+                <label>제목</label>
+                <input type = "text" name = "title" class="form-control">
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label>내용</label>
+                <textarea name = "content" rows = "10" class="form-control"></textarea>
+            </div>
+            <p></p>
+
+            <div class="form-group">
+              <label>작성일</label>
+              <input type="date" class="form-control" name="someDate">
+            </div>
+            <br>
+
+            <button type="submit" class="btn btn-warning" style="float: right;">저장</button>
+    <!-- 날짜 추가 -->
+            <div class="form-group">
+              <form method="POST" action="/photo" enctype="multipart/form-data">
+                <input type="file" name="picture" class="btn btn-outline-primary" accept="image/*">
+                <button type="submit" class="btn btn-outline-secondary">첨부</button>
+              </form>
+            </div>
+            <br>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>
